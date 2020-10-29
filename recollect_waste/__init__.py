@@ -61,8 +61,11 @@ class RecollectWasteClient():
 
                 for flag in event['flags']:
                     # We only want pickup event types
-                    if flag['event_type'] == 'pickup':
-                        pickup_event.pickup_types.append(flag['subject'])
+                    if 'event_type' in flag and flag['event_type'] == 'pickup':
+                        if 'subject' in flag:
+                            pickup_event.pickup_types.append(flag['subject'])
+                        elif 'name' in flag:
+                            pickup_event.pickup_types.append(flag['name'])
                         pickup_event.area_name = flag['area_name']
 
             return pickup_events
